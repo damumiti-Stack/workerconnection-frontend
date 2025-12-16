@@ -1,44 +1,33 @@
-// export async function onRequest(context) {
-//   const req = context.request;
-//   const url = new URL(req.url);
+export async function onRequest(context: any) {
+  const { request, env, next } = context;
 
-//   const BACKEND_ORIGIN = "https://workerconnection-backend.onrender.com";
+  const backend = env.BACKEND_ORIGIN;
+  if (!backend) return new Response("Missing BACKEND_ORIGIN", { status: 500 });
 
-//   const isApi = url.pathname.startsWith("/api/");
-//   const isSaml = url.pathname.startsWith("/saml/");
+  const url = new URL(request.url);
 
-//   if (!isApi && !isSaml) {
-//     return context.next();
-//   }
+  // Only proxy these two prefixes; everything else behaves exactly the same as today
+  const shouldProxy =
+    url.pathname.startsWith("/saml/") || url.pathname.startsWith("/api/");
 
-//   const targetUrl = new URL(BACKEND_ORIGIN);
-//   targetUrl.pathname = url.pathname;
-//   targetUrl.search = url.search;
-
-//   const headers = new Headers(req.headers);
-//   headers.set("host", targetUrl.host);
-
-//   const init = {
-//     method: req.method,
-//     headers,
-//     redirect: "manual",
-//   };
-
-//   if (req.method !== "GET" && req.method !== "HEAD") {
-//     init.body = req.clone().body;
-//   }
-
-//   return fetch(targetUrl.toString(), init);
-// }
-
-export async function onRequest(context) {
-  const url = new URL(context.request.url);
-
-  if (url.pathname.startsWith("/saml/")) {
-    return new Response("MIDDLEWARE_HIT_SAML", {
-      headers: { "content-type": "text/plain" },
-    });
+  if (!shouldProxy) {
+    return next();
   }
 
-  return context.next();
+  const targetUrl = new URL(url.pathname + url.search, backend);
+
+  const headers = new Headers(request.headers);
+  headers.set("Cache-Control", "no-store");
+
+  const resp = await fetch(targetUrl.toString(), {
+    method: request.method,
+    headers,
+    body: ["GET", "HEAD"].includes(request.method) ? undefined : request.body,
+    redirect: url.pathname.startsWith("/saml/") ? "manual" : "follow",
+  });
+
+  const outHeaders = new Headers(resp.headers);
+  outHeaders.set("Cache-Control", "no-store");
+
+  return new Response(resp.body, { status: resp.status, headers: outHeaders });
 }
