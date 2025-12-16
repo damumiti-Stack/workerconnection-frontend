@@ -1,0 +1,26 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Proxy rules MUST come before the catch-all SPA rule
+
+# Proxy API requests to Render backend
+[[redirects]]
+  from = "/api/*"
+  to = "https://workerconnectbackend.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+# Proxy SAML requests to Render backend
+[[redirects]]
+  from = "/saml/*"
+  to = "https://workerconnectbackend.onrender.com/saml/:splat"
+  status = 200
+  force = true
+
+# Redirect all other traffic to index.html for React Router (SPA)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false

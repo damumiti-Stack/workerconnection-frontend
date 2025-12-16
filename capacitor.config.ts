@@ -1,0 +1,79 @@
+import { CapacitorConfig } from '@capacitor/cli';
+
+const config: CapacitorConfig = {
+  appId: 'com.workerconnect.app',
+  appName: 'WorkerConnect',
+  webDir: 'dist',
+  server: {
+    androidScheme: 'http',
+    allowNavigation: ['*'],
+    cleartext: true
+  },
+  plugins: {
+    SplashScreen: {
+      launchShowDuration: 3000,
+      backgroundColor: '#2563eb',
+      showSpinner: true,
+      spinnerColor: '#ffffff',
+      androidSpinnerStyle: 'large',
+      iosSpinnerStyle: 'small',
+      androidScaleType: 'CENTER_CROP',
+      splashFullScreen: true,
+      splashImmersive: true
+    },
+    StatusBar: {
+      style: 'default',
+      backgroundColor: '#2563eb',
+      overlaysWebView: false
+    },
+    Keyboard: {
+      resize: 'body',
+      style: 'dark',
+      resizeOnFullScreen: true
+    },
+    PushNotifications: {
+      presentationOptions: ['badge', 'sound', 'alert']
+    },
+    App: {
+      appendUserAgent: 'WorkerConnect/1.0.0'
+    },
+    Device: {},
+    Geolocation: {
+      permissions: {
+        location: 'always'
+      }
+    },
+    Camera: {
+      permissions: {
+        camera: 'required',
+        photos: 'required'
+      }
+    },
+    LocalNotifications: {
+      smallIcon: 'ic_stat_icon_config_sample',
+      iconColor: '#2563eb'
+    },
+    CapacitorHttp: {
+      enabled: true
+    }
+  },
+  android: {
+    allowMixedContent: true,
+    captureInput: true,
+    webContentsDebuggingEnabled: true,
+    appendUserAgent: 'WorkerConnect Android',
+    backgroundColor: '#2563eb',
+    initialFocus: true
+  },
+  ios: {
+    contentInset: 'automatic',
+    scrollEnabled: true,
+    allowsLinkPreview: true,
+    backgroundColor: '#2563eb',
+    appendUserAgent: 'WorkerConnect iOS',
+    preferredContentMode: 'mobile',
+    limitsNavigationsToAppBoundDomains: false
+  }
+};
+
+export default config;

@@ -1,0 +1,62 @@
+==================================================
+DEPLOY BACKEND TO DOCKER - QUICK COMMANDS
+Your IP: 192.168.129.46
+==================================================
+
+STEP 1: Create .env file with Supabase credentials
+--------------------------------------------------
+cd backend
+Copy-Item env.configured.txt .env
+notepad .env
+
+# Edit .env and replace:
+# SUPABASE_SERVICE_KEY=YOUR_SERVICE_ROLE_KEY_HERE
+# with your actual service_role key from Supabase
+# (Dashboard → Settings → API → service_role key)
+
+
+STEP 2: Deploy to Docker
+--------------------------------------------------
+docker-compose up -d --build
+
+
+STEP 3: Verify it's running
+--------------------------------------------------
+docker-compose ps
+docker-compose logs
+curl http://localhost:3001/health
+curl http://192.168.129.46:3001/health
+
+
+STEP 4: Allow Firewall (Run PowerShell as Admin)
+--------------------------------------------------
+New-NetFirewallRule -DisplayName "WorkerConnect Backend" -Direction Inbound -LocalPort 3001 -Protocol TCP -Action Allow
+
+
+STEP 5: Test from mobile browser
+--------------------------------------------------
+Visit: http://192.168.129.46:3001/health
+
+
+STEP 6: Rebuild mobile app
+--------------------------------------------------
+cd ..
+npm run build
+npx cap sync android
+
+
+==================================================
+USEFUL COMMANDS
+==================================================
+
+Start:      docker-compose up -d
+Stop:       docker-compose down
+Logs:       docker-compose logs -f
+Restart:    docker-compose restart
+Rebuild:    docker-compose up -d --build
+Status:     docker-compose ps
+
+==================================================
+YOUR BACKEND URL: http://192.168.129.46:3001/api
+==================================================
+

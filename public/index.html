@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap: content: capacitor:; style-src * 'self' 'unsafe-inline'; script-src * 'self' 'unsafe-inline' 'unsafe-eval'; connect-src * 'self' ws: wss:;">
+  <title>Redirect to App</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      max-width: 500px;
+      background-color: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #2563eb;
+      margin-bottom: 20px;
+    }
+    p {
+      color: #4b5563;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+    .button {
+      display: inline-block;
+      background-color: #2563eb;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: background-color 0.2s;
+    }
+    .button:hover {
+      background-color: #1d4ed8;
+    }
+    .spinner {
+      border: 4px solid rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+      border-top: 4px solid #2563eb;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>WorkerConnect Mobile App</h1>
+    <div class="spinner"></div>
+    <p>Your download should start automatically. If it doesn't, please click the button below.</p>
+    <a href="/downloads/WorkerConnect.apk" class="button" download>Download Again</a>
+  </div>
+  
+  <script>
+    // Auto-start download after a short delay
+    setTimeout(() => {
+      const link = document.createElement('a');
+      link.href = '/downloads/WorkerConnect.apk';
+      link.download = 'WorkerConnect.apk';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }, 1500);
+  </script>
+</body>
+</html>
