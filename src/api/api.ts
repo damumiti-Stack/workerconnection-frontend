@@ -25,10 +25,12 @@ export async function api<T>(
   const url = `${BASE_URL}${path}`;
 
   // Prepare options for fetch
+const sessionToken = sessionStorage.getItem("session_token");
   const options: RequestInit = {
     method,
     headers: {
       "Content-Type": "application/json",
+      ...(sessionToken ? { "X-Session-Token": sessionToken } : {}),
       // Add Authorization token if available in storage (mostly for non-SAML flows or if backend expects it)
       // "Authorization": `Bearer ${localStorage.getItem('token')}` 
     },
