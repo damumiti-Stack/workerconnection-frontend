@@ -23,7 +23,8 @@ export function getSamlLoginUrl(role: 'worker' | 'establishment' | 'department')
     return `https://workerconnectbackend.onrender.com/saml/login/${role}`;
   }
   // Web: Proxied through Netlify/Vite
-  return `/saml/login/${role}`;
+  //return `/saml/login/${role}`;
+ return `https://workerconnectbackend.onrender.com/saml/login/${role}`
 }
 
 export const API_CONFIG = {
