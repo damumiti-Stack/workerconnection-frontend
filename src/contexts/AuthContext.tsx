@@ -206,11 +206,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setUser(null);
     localStorage.removeItem("authUser");
     localStorage.removeItem("authExpiry");
+    sessionStorage.removeItem("session_token");
   };
 
   // Check for existing session on mount
   useEffect(() => {
     const initAuth = async () => {
+      const params = new URLSearchParams(window.location.search);
+      const sessionToken = params.get("session_token");
+      if (sessionToken) {
+        sessionStorage.setItem("session_token", sessionToken);
+        params.delete("session_token");
+        const cleanUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : "");
+        window.history.replaceState({}, "", cleanUrl);
+      }
       try {
         // 1. Check local storage first (legacy/mobile/quick load)
         const storedUser = localStorage.getItem("authUser");
