@@ -1,6 +1,7 @@
 export async function onRequest(context) {
   const req = context.request;
   const url = new URL(req.url);
+
   const BACKEND_ORIGIN = "https://workerconnection-backend.onrender.com";
 
   const isApi = url.pathname.startsWith("/api/");
@@ -14,9 +15,12 @@ export async function onRequest(context) {
   targetUrl.pathname = url.pathname;
   targetUrl.search = url.search;
 
+  const headers = new Headers(req.headers);
+  headers.set("host", targetUrl.host);
+
   const init = {
     method: req.method,
-    headers: req.headers,
+    headers,
     redirect: "manual",
   };
 
