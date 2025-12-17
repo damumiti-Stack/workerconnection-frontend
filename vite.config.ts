@@ -119,13 +119,13 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': {
-        target: 'https://workerconnectbackend.onrender.com',
+        target: 'https://workerconnection-backend.onrender.com',
         changeOrigin: true,
         secure: false,
         cookieDomainRewrite: "localhost"
       },
       '/saml': {
-        target: 'https://workerconnectbackend.onrender.com',
+        target: 'https://workerconnection-backend.onrender.com',
         changeOrigin: true,
         secure: false,
         cookieDomainRewrite: "localhost"

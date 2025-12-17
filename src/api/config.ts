@@ -9,7 +9,7 @@ function getBaseUrl(): string {
   // Otherwise (Web, Mobile Web, PWA), use the relative path to go through the Proxy.
   if (Capacitor.isNativePlatform()) {
     console.log('🔗 [Config] Using Native Backend URL');
-    return "https://workerconnectbackend.onrender.com/api";
+    return "https://workerconnection-backend.onrender.com/api";
   }
 
   // Default to Proxy for all web environments (Localhost, Netlify, Custom Domains)
@@ -53,7 +53,7 @@ export const API_CONFIG = {
   TIMEOUT: 10000,
   // Add backend root URL for non-API links (like SAML)
   BACKEND_ROOT: Capacitor.isNativePlatform()
-    ? "https://workerconnectbackend.onrender.com"
+    ? "https://workerconnection-backend.onrender.com"
     : ""
 };
 
